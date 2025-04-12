@@ -1,0 +1,5 @@
+{
+  "/page": "app/page.js",
+  "/certifications/page": "app/certifications/page.js",
+  "/privacy-policy/page": "app/privacy-policy/page.js"
+}
