@@ -20,18 +20,16 @@ jobs:
           submodules: true
           lfs: false
 
-      # For frameworks that require Node.js (React, Vue, Angular, etc.)
-      # Uncomment if needed
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '18'
-      
-      # - name: Install dependencies
-      #   run: npm ci
-      
-      # - name: Build
-      #   run: npm run build
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and export
+        run: npm run build
 
       - name: Build And Deploy
         id: builddeploy
@@ -41,9 +39,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for GitHub integrations (i.e. PR comments)
           action: "upload"
           ###### Repository/Build Configurations ######
-          app_location: "/"              # App source code path - change to "src" or appropriate folder
-          api_location: ""               # Api source code path - e.g., "api" if you have Azure Functions
-          output_location: ""            # Built app content directory - e.g., "build" for React, "dist" for Vue
+          app_location: "/"              
+          api_location: ""               
+          output_location: "out"         # This is where `next export` outputs files
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
@@ -57,3 +55,4 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "close"
+          ###### Repository/Build Configurations ######
