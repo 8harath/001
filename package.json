@@ -3,3 +3,9 @@
   "build": "next build && next export",
   "start": "next start"
 }
+"dependencies": {
+  "@emailjs/browser": "^3.11.0"
+        "@emailjs/browser": "^3.11.0"
+      }
+    }
+  }
