@@ -3,11 +3,11 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - main  # Change to 'master' if that's your main branch
+      - main  # change to master if that's your default
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - main  # Change to 'master' if that's your main branch
+      - main
 
 jobs:
   build_and_deploy_job:
@@ -23,26 +23,24 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '18'  # Adjust if you're using a different version locally
 
       - name: Install dependencies
-        run: npm install
+        run: npm install  # Changed from npm ci because you don’t have a package-lock.json
 
-      - name: Build and export
-        run: npm run build
+      - name: Build and export Next.js site
+        run: npm run build  # Should be set to `next build && next export` in your package.json
 
-      - name: Build And Deploy
+      - name: Deploy to Azure Static Web Apps
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for GitHub integrations (i.e. PR comments)
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          ###### Repository/Build Configurations ######
           app_location: "/"              
           api_location: ""               
-          output_location: "out"         # This is where `next export` outputs files
-          ###### End of Repository/Build Configurations ######
+          output_location: "out"         # This is where `next export` puts your static site
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -55,4 +53,3 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "close"
-          ###### Repository/Build Configurations ######
